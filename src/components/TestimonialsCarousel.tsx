@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // Define the structure of a testimonial
 interface Testimonial {
@@ -17,21 +18,21 @@ const testimonials: Testimonial[] = [
     name: "Heeni Nyakanjuki",
     role: "Director",
     company: "FANCY GROUP, INC",
-    image: "/placeholder.svg", // Using placeholder as fallback
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=500", 
     quote: "Working with the student team was an excellent experience. They brought fresh ideas and technical skills that helped us solve a challenging problem. Their professionalism exceeded our expectations and delivered real value to our business. We'll definitely use this platform again for future projects."
   },
   {
     name: "Sarah Johnson",
     role: "CEO",
     company: "Tech Innovations Ltd",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=500",
     quote: "The students delivered exceptional work that exceeded our expectations. Their creative approach to problem-solving and technical expertise impressed our entire team. The platform made collaboration seamless, and we've already recommended it to our partners."
   },
   {
     name: "Michael Chen",
     role: "Product Manager",
     company: "Global Solutions",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=500",
     quote: "We were blown away by the quality of work from the student team. They quickly understood our challenges and delivered a solution that was both innovative and practical. Their communication was excellent throughout the project, making the whole process smooth and enjoyable."
   }
 ];
@@ -70,12 +71,17 @@ const TestimonialsCarousel: React.FC = () => {
             )}
           >
             <div className="flex flex-col md:flex-row gap-8">
-              <div className="md:w-2/5">
-                <img 
-                  src={testimonials[currentIndex].image} 
-                  alt={testimonials[currentIndex].name} 
-                  className="rounded-lg w-full h-auto object-cover shadow-md"
-                />
+              <div className="md:w-2/5 flex items-center justify-center">
+                <Avatar className="w-full h-auto aspect-square max-w-[250px] rounded-lg overflow-hidden shadow-md">
+                  <AvatarImage 
+                    src={testimonials[currentIndex].image} 
+                    alt={testimonials[currentIndex].name}
+                    className="object-cover w-full h-full" 
+                  />
+                  <AvatarFallback className="text-4xl bg-blue-100 text-blue-800 w-full h-full">
+                    {testimonials[currentIndex].name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
               </div>
               <div className="md:w-3/5 py-4 md:py-8">
                 <h2 className="text-xl font-bold text-gray-900">{testimonials[currentIndex].name}</h2>
@@ -91,15 +97,6 @@ const TestimonialsCarousel: React.FC = () => {
                   >
                     <ChevronLeft className="h-5 w-5 text-gray-600" />
                   </button>
-                  <div className="flex space-x-2 items-center">
-                    {testimonials.map((_, index) => (
-                      <span 
-                        key={index} 
-                        className={`block h-2 w-2 rounded-full ${index === currentIndex ? 'bg-blue-500' : 'bg-gray-300'}`}
-                        aria-label={index === currentIndex ? 'Current testimonial' : `Go to testimonial ${index + 1}`}
-                      />
-                    ))}
-                  </div>
                   <button 
                     onClick={goToNext}
                     className="p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors"
